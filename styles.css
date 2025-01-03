@@ -35,7 +35,7 @@ header h1 {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     grid-template-rows: repeat(9, 1fr);
     gap: 1px; /* Reduced space between cells */
     width: 100%;

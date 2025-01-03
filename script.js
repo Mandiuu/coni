@@ -1,22 +1,22 @@
 const crosswordData = {
     grid: [
         ["", "R", "A", "N", "C", "A", "G", "U", "A"], // Row 0
-        ["", "", "", "", "", "A", "C", "O", "", "P"], // Row 1
-        ["", "", "", "", "", "S", "U", "D", "", "O"], // Row 2
-        ["", "", "", "", "", "T", "A", "I", "", "L"], // Row 3
-        ["", "", "", "", "", "E", "R", "", "", "O"], // Row 4
-        ["", "", "", "C", "", "L", "I", "", "", ""], // Row 5
-        ["", "C", "H", "O", "C", "L", "O", "", "", ""], // Row 6
-        ["", "", "", "C", "", "I", "", "", "", ""], // Row 7
-        ["", "", "", "A", "", "", "", "", "", ""], // Row 8
+        ["", "", "", "", "A", "C", "O", "", "P"], // Row 1
+        ["", "", "", "", "S", "U", "D", "", "O"], // Row 2
+        ["", "", "", "", "T", "A", "I", "", "L"], // Row 3
+        ["", "", "", "", "E", "R", "", "", "O"], // Row 4
+        ["", "", "C", "", "L", "I", "", "", ""], // Row 5
+        ["C", "H", "O", "C", "L", "O", "", "", ""], // Row 6
+        ["", "", "C", "", "I", "", "", "", ""], // Row 7
+        ["", "", "A", "", "", "", "", "", ""], // Row 8
     ],
     clues: {
         across: [
             { number: 1, clue: "Ciudad donde fue concebida la Mila", row: 0, col: 1 },
-            { number: 2, clue: "Comida favorita de la Coni; pastel de ...", row: 6, col: 1 },
+            { number: 2, clue: "Comida favorita de la Coni; pastel de ...", row: 6, col: 0 },
         ],
         down: [
-            { number: 3, clue: "Nombre de la perrita de Paolo y la Coni", row: 5, col: 3 },
+            { number: 3, clue: "Nombre de la perrita de Paolo y la Coni", row: 5, col: 2 },
             { number: 4, clue: "Apellido de Mila", row: 0, col: 4 },
             { number: 5, clue: "Signo de la Coni", row: 0, col: 5 },
             { number: 6, clue: "Sobrenombre de la Coni a Paolo", row: 0, col: 6 },
