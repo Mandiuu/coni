@@ -38,12 +38,29 @@ function createGrid() {
             div.classList.add("grid-cell");
 
             if (cell === "") {
-                div.classList.add("empty-cell"); // Assign baby-blue color for empty boxes
+                div.classList.add("empty-cell");
             } else {
                 const input = document.createElement("input");
                 input.maxLength = 1;
                 input.dataset.row = rowIndex;
                 input.dataset.col = colIndex;
+
+                input.addEventListener("input", (e) => {
+                    const value = e.target.value.toUpperCase();
+                    e.target.value = value;
+                    const nextInput = findNextInput(rowIndex, colIndex);
+                    if (value && nextInput) {
+                        nextInput.focus();
+                    }
+                });
+
+                input.addEventListener("keydown", (e) => {
+                    if (e.key === "Backspace" && !e.target.value) {
+                        const prevInput = findPreviousInput(rowIndex, colIndex);
+                        if (prevInput) prevInput.focus();
+                    }
+                });
+
                 div.appendChild(input);
 
                 crosswordData.clues.across.concat(crosswordData.clues.down).forEach((clue) => {
@@ -55,6 +72,22 @@ function createGrid() {
             crosswordGrid.appendChild(div);
         });
     });
+}
+
+function findNextInput(row, col) {
+    const inputs = Array.from(crosswordGrid.querySelectorAll("input"));
+    const currentIndex = inputs.findIndex(
+        (input) => input.dataset.row == row && input.dataset.col == col
+    );
+    return inputs[currentIndex + 1] || null;
+}
+
+function findPreviousInput(row, col) {
+    const inputs = Array.from(crosswordGrid.querySelectorAll("input"));
+    const currentIndex = inputs.findIndex(
+        (input) => input.dataset.row == row && input.dataset.col == col
+    );
+    return inputs[currentIndex - 1] || null;
 }
 
 function createClues() {
@@ -88,8 +121,8 @@ function checkAnswers() {
     });
 
     resultElement.textContent = correct
-        ? "¡Felicidades! Lo lograste."
-        : "Algunas respuestas están incorrectas. ¡No pares, sigue sigue!";
+        ? "¡Felicidades! Todas las respuestas están correctas."
+        : "Algunas respuestas son incorrectas. ¡Intenta de nuevo!";
 }
 
 createGrid();
