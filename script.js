@@ -31,6 +31,8 @@ const downCluesElement = document.getElementById("down-clues");
 const resultElement = document.getElementById("result");
 const checkButton = document.getElementById("check-btn");
 
+let currentDirection = "across"; // Default direction
+
 function createGrid() {
     crosswordData.grid.forEach((row, rowIndex) => {
         row.forEach((cell, colIndex) => {
@@ -45,10 +47,15 @@ function createGrid() {
                 input.dataset.row = rowIndex;
                 input.dataset.col = colIndex;
 
+                input.addEventListener("click", () => {
+                    currentDirection = determineDirection(rowIndex, colIndex);
+                });
+
                 input.addEventListener("input", (e) => {
                     const value = e.target.value.toUpperCase();
                     e.target.value = value;
-                    const nextInput = findNextInput(rowIndex, colIndex);
+
+                    const nextInput = findNextInput(rowIndex, colIndex, currentDirection);
                     if (value && nextInput) {
                         nextInput.focus();
                     }
@@ -56,7 +63,7 @@ function createGrid() {
 
                 input.addEventListener("keydown", (e) => {
                     if (e.key === "Backspace" && !e.target.value) {
-                        const prevInput = findPreviousInput(rowIndex, colIndex);
+                        const prevInput = findPreviousInput(rowIndex, colIndex, currentDirection);
                         if (prevInput) prevInput.focus();
                     }
                 });
@@ -74,20 +81,60 @@ function createGrid() {
     });
 }
 
-function findNextInput(row, col) {
-    const inputs = Array.from(crosswordGrid.querySelectorAll("input"));
-    const currentIndex = inputs.findIndex(
-        (input) => input.dataset.row == row && input.dataset.col == col
+function determineDirection(row, col) {
+    // Check if the current cell is part of a vertical or horizontal word
+    const isPartOfDown = crosswordData.clues.down.some(
+        (clue) =>
+            clue.col == col &&
+            row >= clue.row &&
+            row < clue.row + crosswordData.grid.length &&
+            crosswordData.grid[row][col] !== ""
     );
-    return inputs[currentIndex + 1] || null;
+
+    const isPartOfAcross = crosswordData.clues.across.some(
+        (clue) =>
+            clue.row == row &&
+            col >= clue.col &&
+            col < clue.col + crosswordData.grid[0].length &&
+            crosswordData.grid[row][col] !== ""
+    );
+
+    // Default to "down" if both are true; otherwise, pick the matching direction
+    return isPartOfDown ? "down" : "across";
 }
 
-function findPreviousInput(row, col) {
+function findNextInput(row, col, direction) {
     const inputs = Array.from(crosswordGrid.querySelectorAll("input"));
-    const currentIndex = inputs.findIndex(
-        (input) => input.dataset.row == row && input.dataset.col == col
-    );
-    return inputs[currentIndex - 1] || null;
+    if (direction === "down") {
+        return inputs.find(
+            (input) =>
+                input.dataset.row == parseInt(row) + 1 &&
+                input.dataset.col == col
+        );
+    } else {
+        return inputs.find(
+            (input) =>
+                input.dataset.row == row &&
+                input.dataset.col == parseInt(col) + 1
+        );
+    }
+}
+
+function findPreviousInput(row, col, direction) {
+    const inputs = Array.from(crosswordGrid.querySelectorAll("input"));
+    if (direction === "down") {
+        return inputs.find(
+            (input) =>
+                input.dataset.row == parseInt(row) - 1 &&
+                input.dataset.col == col
+        );
+    } else {
+        return inputs.find(
+            (input) =>
+                input.dataset.row == row &&
+                input.dataset.col == parseInt(col) - 1
+        );
+    }
 }
 
 function createClues() {
@@ -122,7 +169,7 @@ function checkAnswers() {
 
     resultElement.textContent = correct
         ? "¡Felicidades! Todas las respuestas están correctas."
-        : "Algunas respuestas son incorrectas. ¡Intenta de nuevo!";
+        : "Algunas respuestas están incorrectas. ¡Intenta de nuevo!";
 }
 
 createGrid();
