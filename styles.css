@@ -133,6 +133,9 @@ header h1 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    display: block; /* Ensure it behaves like a block-level element */
+    margin: 20px auto; /* Auto margins horizontally center it */
+    text-align: center; /* Centers text inside the button */
 }
 
 .btn:hover {
