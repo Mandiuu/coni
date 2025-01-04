@@ -12,7 +12,7 @@ const crosswordData = {
     ],
     clues: {
         across: [
-            { number: 1, clue: "Ciudad donde fue concebida la Mila", row: 0, col: 1 },
+            { number: 1, clue: "Ciudad donde fue concebida Bruno", row: 0, col: 1 },
             { number: 2, clue: "Comida favorita de la Coni; pastel de ...", row: 6, col: 0 },
         ],
         down: [
